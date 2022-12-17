@@ -1,10 +1,22 @@
+%            ________  ___  __        _____ ______                 %
+%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
+%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
+%                                                                  %
+%                     Author: Andrea Somma;                        % 
+%                     Politecnico of Milan 2021-2022               % 
+%                                                                  %
+
 %% models
 clear; close all; clc
 load('.\thermo_models\NASA_REDUCED.mat');
 load('.\PM\PM_table.mat');
 load('.\transport\data_trans_aramco.mat');
 
-transport_method = 0; %1 for exp(Perry), 0 for statistical
+transport_method = 0;
 
 %% dati reazioni
 EA=[265 88 275]*1e3; %J/mol
@@ -146,9 +158,6 @@ for i=1:length(De_vect)
         end
     end
 end
-
-%% check vincoli
-checked_results = results_check(vincoli,T_pelle_max,dP_max/1e5,conv_CH4_min,H2_min);
 
 %% functions
 
@@ -305,10 +314,6 @@ kt=zeros(1,length(species));
 if transport_method == 0
     for i=1:length(species)
         kt(i)=stat_trans(species(i),T,P,"kt",data_trans,PM_table,data);
-    end
-elseif transport_method == 1
-    for i=1:length(species)
-        kt(i)=transport("kt",species(i),T);
     end
 end
 kt_=0.5*(sum(x.*kt')+1/(sum(x'./kt)));  %S. Mathur, P. K. Tondon, and S. C. Saxena, Molecular Physics 12:569 (1967) CHEMKIN MANUAL
