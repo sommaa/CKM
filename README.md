@@ -21,7 +21,7 @@ A series of functions to use Chemkin-like files on matlab.
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - T = temperature [K];
   - P = pressure [bar];
-  - prop = property to evaluate:
+  - prop = property to evaluate, based on collision integral:
     - vi = viscosity;
     - kt = thermal conductivity;
     - diff = diffusion mass coefficient;
