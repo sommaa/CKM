@@ -30,4 +30,4 @@ A series of functions to use Chemkin-like files on matlab.
 
 - [transport folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/transport): Saudi Aramco kinetic model [AramcoMech]((https://www.universityofgalway.ie/combustionchemistrycentre/mechanismdownloads/aramcomech13/)) transport coefficients
   
-
+- [SteamReformer.m](https://github.com/sommaa/Chemkin_on_matlam/blob/main/SteamReformer.m): example of usage of functions. Parametric analysis of a steam reforming tube.
