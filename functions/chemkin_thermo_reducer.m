@@ -2,7 +2,7 @@ function chemkin_thermo_reducer(thermo_data_name,species)
     % preparing cells
     data = cell(numel(species)*4,5);
     % readmode thermodinamics file
-    ReadFileID = fopen(strcat("./thermo_models_full/",thermo_data_name), 'rt');
+    ReadFileID = fopen(strcat(thermo_data_name), 'rt');
     % creating directory if not ex
     if ~exist("thermo_models/")
        mkdir("thermo_models/")

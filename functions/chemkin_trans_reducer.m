@@ -2,7 +2,7 @@ function chemkin_trans_reducer(trans_data_name,species)
     % preparing cells
     data_trans = cell(numel(species),7);
     % readmode thermodinamics file
-    ReadFileID = fopen(strcat("./transport_models_full/",trans_data_name), 'rt');
+    ReadFileID = fopen(strcat(trans_data_name), 'rt');
     % creating directory if not ex
     if ~exist("transport_models/")
        mkdir("transport_models/")

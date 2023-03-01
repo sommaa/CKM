@@ -13,13 +13,13 @@ clc; clear all; close all
 
 %% reducing and parsing thermo model
 species=["CH4" "H2O" "CO" "H2" "CO2" "N2"];
-chemkin_thermo_reducer("thermo.txt",species)
-chemkin_trans_reducer("trans.txt",species)
+chemkin_thermo_reducer("thermo .txt path",species)
+chemkin_trans_reducer("trans .txt path",species)
 
 %% models
-load('./thermo_models/thermo_reduced.mat');
-load('./PM/PM_table.mat');
-load('./transport_models/trans_reduced.mat');
+load('saved reduced thermo path');
+load('PM table');
+load('saved reduced thermo path');
 
 %% dati reazioni
 EA=[265 88 275]*1e3; %J/mol
