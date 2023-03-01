@@ -1,4 +1,4 @@
-# Chemkin_on_matlab
+# Chemkin on matlab
 A series of functions to use Chemkin-like files on matlab.
 
 - [all_thermo.m](https://github.com/sommaa/Chemkin_on_matlam/blob/main/all_thermo.m) out = (specie,prop,T,data):
@@ -26,7 +26,8 @@ A series of functions to use Chemkin-like files on matlab.
     - kt = thermal conductivity;
     - diff = diffusion mass coefficient;
     
-- [thermo_models folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/thermo_models): collection of thermo models from various sources
+- [thermo_models folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/thermo_models): converted thermo models;
+- [thermo_models_full folder](https://github.com/sommaa/Chemkin_on_matlab/tree/main/thermo_models_full): raw chemkin models;
 
 - [transport folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/transport): Saudi Aramco kinetic model [AramcoMech]((https://www.universityofgalway.ie/combustionchemistrycentre/mechanismdownloads/aramcomech13/)) transport coefficients
   
