@@ -25,10 +25,13 @@ A series of functions to use Chemkin-like files on matlab.
     - vi = viscosity;
     - kt = thermal conductivity;
     - diff = diffusion mass coefficient;
-    
-- [thermo_models folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/thermo_models): converted thermo models;
-- [thermo_models_full folder](https://github.com/sommaa/Chemkin_on_matlab/tree/main/thermo_models_full): raw chemkin models;
 
-- [transport folder](https://github.com/sommaa/Chemkin_on_matlam/tree/main/transport): Saudi Aramco kinetic model [AramcoMech]((https://www.universityofgalway.ie/combustionchemistrycentre/mechanismdownloads/aramcomech13/)) transport coefficients
+- [chemkin_thermo_reducer.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_thermo_reducer.m) out = chemkin_thermo_reducer(path,species):
+  - path = path of the chemkin thermo file;
+  - specie = name of the species in chemkin format in a vector [a,b,c,d];
+  
+- [chemkin_trans_reducer.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_trans_reducer.m) out = chemkin_trans_reducer(path,species):
+  - path = path of the chemkin trans file;
+  - specie = name of the species in chemkin format in a vector [a,b,c,d];
   
 - [SteamReformer.m](https://github.com/sommaa/Chemkin_on_matlam/blob/main/SteamReformer.m): example of usage of functions. Parametric analysis of a steam reforming tube.
