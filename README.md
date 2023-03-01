@@ -1,4 +1,4 @@
-# Chemkin_on_matlam
+# Chemkin_on_matlab
 A series of functions to use Chemkin-like files on matlab.
 
 - [all_thermo.m](https://github.com/sommaa/Chemkin_on_matlam/blob/main/all_thermo.m) out = (specie,prop,T,data):
