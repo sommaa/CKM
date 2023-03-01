@@ -31,16 +31,16 @@ end
 vect= 2:4:nspecies*4;
 index_specie = find(ismember(speciename,specie)==1);
 
-if T>1000 && T<6000 || T==6000
+if T>1000 && T<5000 || T==5000
     
     coeff = [data(vect(index_specie),1) data(vect(index_specie),2) data(vect(index_specie),3)...
         data(vect(index_specie),4) data(vect(index_specie),5) data(vect(index_specie)+1,1) data(vect(index_specie)+1,2)];
-    coeff = cell2mat(coeff);
+    coeff = str2double(coeff);
     
 elseif  T<1000 && T>200 || T==1000
     coeff = [data(vect(index_specie)+1,3) data(vect(index_specie)+1,4) data(vect(index_specie)+1,5) data(vect(index_specie)+2,1)...
         data(vect(index_specie)+2,2) data(vect(index_specie)+2,3) data(vect(index_specie)+2,4)];
-    coeff = cell2mat(coeff);
+    coeff = str2double(coeff);
     
 else
     disp('temperature range not supported, only 200 to 4000 range accepted')

@@ -9,12 +9,16 @@
 %                     Author: Andrea Somma;                        % 
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
+clc; clear all; close all
+
+%% reducing and parsing thermo model
+species=["CH4" "H2O" "CO" "H2" "CO2" "N2"];
+chemkin_reducer("thermo.txt",species)
 
 %% models
-clear; close all; clc
-load('.\thermo_models\NASA_REDUCED.mat');
-load('.\PM\PM_table.mat');
-load('.\transport\data_trans_aramco.mat');
+load('./thermo_models/thermo_reduced.mat');
+load('./PM/PM_table.mat');
+load('./transport/data_trans_aramco.mat');
 
 transport_method = 0;
 
@@ -23,7 +27,6 @@ EA=[265 88 275]*1e3; %J/mol
 k0=[13.2 136 1.68];
 K0=[6.65*1e-4 1.77*1e5 8.23*1e-5 6.12*1e-9 0 0];
 DH=[-38.28 88.68 -70.65 -82.90 0 0]*1e3; %J/mol
-species=["CH4" "H2O" "CO" "H2" "CO2" "N2"];
 nu=[-1 -1 +1 +3 +0 +0
     +0 -1 -1 +1 +1 +0
     -1 -2 +0 +4 +1 +0];
