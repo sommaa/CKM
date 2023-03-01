@@ -13,14 +13,13 @@ clc; clear all; close all
 
 %% reducing and parsing thermo model
 species=["CH4" "H2O" "CO" "H2" "CO2" "N2"];
-chemkin_reducer("thermo.txt",species)
+chemkin_thermo_reducer("thermo.txt",species)
+chemkin_trans_reducer("trans.txt",species)
 
 %% models
 load('./thermo_models/thermo_reduced.mat');
 load('./PM/PM_table.mat');
-load('./transport/data_trans_aramco.mat');
-
-transport_method = 0;
+load('./transport_models/trans_reduced.mat');
 
 %% dati reazioni
 EA=[265 88 275]*1e3; %J/mol
@@ -97,23 +96,19 @@ for i=1:length(De_vect)
             
             %% first try & init
             nin=1050*1000/3600/n_tubi; %mol/s
-            if transport_method == 1
-                Pin_vect=[22.3789 22.3356 21.1688 21.1484 20.9154 20.8981 20.4091 20.4017 20.4311 20.4226 20.1801 20.1767]; %bar
-            else
-                Pin_vect=[22.4068 22.3636 21.1764 21.1556 20.9270 20.9094 20.4119 20.4044 20.4365 20.4281 20.1813 20.1779]; %bar
-            end
+            Pin_vect=[22.4068 22.3636 21.1764 21.1556 20.9270 20.9094 20.4119 20.4044 20.4365 20.4281 20.1813 20.1779]; %bar
             counter = 1+counter;
             Pin = Pin_vect(counter);
             init=[0 0 0 0 0 0 Tin Pin]; init(1:6)=nin.*x;
             opt = odeset('InitialStep',1e-14,'Refine',3,'MaxStep',0.02);
-            [L,sol]=ode15s(@(L,I) diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,transport_method,data_trans),lunghezza_vect,init,opt);
+            [L,sol]=ode15s(@(L,I) diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,data_trans),lunghezza_vect,init,opt);
             
             
             %% Tpe control
             
             Tpe=zeros(1,length(L));
             for k = 1:length(L)
-                Tpe(k) = control_Tpe(L(k),sol(k,:),species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,transport_method,data_trans);
+                Tpe(k) = control_Tpe(L(k),sol(k,:),species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,data_trans);
             end
             
             %% results
@@ -164,7 +159,7 @@ end
 
 %% functions
 
-function ode=diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,transport_method,data_trans)
+function ode=diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,data_trans)
 
 ni=I(1:6);
 T=I(7);
@@ -223,16 +218,8 @@ DH0R=nu*DH0R_vect';
 Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
 vi=zeros(1,length(species));
-if transport_method == 0
-    for i=1:length(species)
-        vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
-    end
-elseif transport_method == 1
-    for i=1:length(species)
-        vi(i)=transport("vi",species(i),T);
-    end
-else
-    error('set transport_method')
+for i=1:length(species)
+    vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
 end
 
 phi = zeros(length(species),length(species));
@@ -261,7 +248,7 @@ ode=ode';
 
 end
 
-function Tpe=control_Tpe(L,I,species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,transport_method,data_trans)
+function Tpe=control_Tpe(L,I,species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,data_trans)
 
 ni=I(1:6);
 T=I(7);
@@ -291,17 +278,10 @@ Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 
 % visc
 vi=zeros(1,length(species));
-if transport_method == 0
-    for i=1:length(species)
-        vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
-    end
-elseif transport_method == 1
-    for i=1:length(species)
-        vi(i)=transport("vi",species(i),T);
-    end
-else
-    error('set transport_method')
+for i=1:length(species)
+    vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
 end
+
 
 phi = zeros(length(species),length(species));
 
@@ -314,10 +294,8 @@ vi_=sum(x'.*vi./sum(x'.*phi)); %C. R. Wilke, Journal of Chemical Physics 18:517 
 
 % kt
 kt=zeros(1,length(species));
-if transport_method == 0
-    for i=1:length(species)
-        kt(i)=stat_trans(species(i),T,P,"kt",data_trans,PM_table,data);
-    end
+for i=1:length(species)
+    kt(i)=stat_trans(species(i),T,P,"kt",data_trans,PM_table,data);
 end
 kt_=0.5*(sum(x.*kt')+1/(sum(x'./kt)));  %S. Mathur, P. K. Tondon, and S. C. Saxena, Molecular Physics 12:569 (1967) CHEMKIN MANUAL
 

@@ -29,12 +29,12 @@ Zrot0 = zeros(1,length(specie));
 for i =1:length(specie)
     PM(i) = PM_fun(specie(i),PM_table); %molecular mass Kg/mol
     index(i) = find(strcmp(data_trans(:,1),specie(i))==1);
-    type(i) = cell2mat(data_trans(index(i),2));
-    epsonk(i) = cell2mat(data_trans(index(i),3)); %K
-    lennar(i) = cell2mat(data_trans(index(i),4))*1e-10; %m
-    mu(i) = cell2mat(data_trans(index(i),5));
-    alpha(i) = cell2mat(data_trans(index(i),6));
-    Zrot0(i) = cell2mat(data_trans(index(i),7));
+    type(i) = str2double(data_trans(index(i),2));
+    epsonk(i) = str2double(data_trans(index(i),3)); %K
+    lennar(i) = str2double(data_trans(index(i),4))*1e-10; %m
+    mu(i) = str2double(data_trans(index(i),5));
+    alpha(i) = str2double(data_trans(index(i),6));
+    Zrot0(i) = str2double(data_trans(index(i),7));
 end
 
 kb = 1.3806488e-23; %J/K
