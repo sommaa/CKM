@@ -48,11 +48,11 @@
     - kt = thermal conductivity;
     - diff = diffusion mass coefficient;
 
-- [chemkin_thermo_reducer.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_thermo_reducer.m) out = chemkin_thermo_reducer(path,species):
+- [chemkin_thermo_converter.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_thermo_converter.m) out = chemkin_thermo_reducer(path,species):
   - path = path of the chemkin thermo file;
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   
-- [chemkin_trans_reducer.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_trans_reducer.m) out = chemkin_trans_reducer(path,species):
+- [chemkin_trans_converter.m](https://github.com/sommaa/Chemkin_on_matlab/blob/main/functions/chemkin_trans_converter.m) out = chemkin_trans_reducer(path,species):
   - path = path of the chemkin trans file;
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   
