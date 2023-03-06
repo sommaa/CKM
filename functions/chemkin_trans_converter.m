@@ -10,7 +10,7 @@
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
 
-function chemkin_trans_reducer(trans_data_name,species)
+function chemkin_trans_converter(trans_data_name,species)
     % preparing cells
     data_trans = cell(numel(species),7);
     % readmode thermodinamics file
