@@ -52,15 +52,24 @@
 - [thRed](/@CKM/thRed.m) out = thRed(path,species):
   - path = path of the chemkin thermo file;
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
+  - out = automatically saved .mat file
+  
 - [trRed](/@CKM/trRed.m) out = trRed(path,species):
 
   - path = path of the chemkin trans file;
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
+  - out = automatically saved .mat file
 
-- [thConv](/@CKM/thConv.m) out = thConv(path,species):
+- [thConv](/@CKM/thConv.m) out = thConv(path):
   - path = path of the chemkin thermo file;
-- [trConv](/@CKM/trConv.m) out = chemkin_trans_reducer(path,species):
-
+  - out = automatically saved .mat file
+  
+- [trConv](/@CKM/trConv.m) out = trConv(path):
   - path = path of the chemkin trans file;
+  - out = automatically saved .mat file
 
 - [SteamReformer.m](/example/SteamReformer.m): example of usage of functions. Parametric analysis of a steam reforming tube.
+
+## Coming Soon
+- Chemical equilibrium trough Gibbs minimization
+- Chemkin Reaction Kinetic Mechanism support (not that soon probably)
