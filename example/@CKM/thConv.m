@@ -1,0 +1,61 @@
+%            ________  ___  __        _____ ______                 %
+%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
+%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
+%                                                                  %
+%                     Author: Andrea Somma;                        %
+%                     Politecnico of Milan 2021-2022               %
+%                                                                  %
+
+
+function thConv(thermo_data_name)
+    % readmode thermodinamics file
+    ReadFileID = fopen(strcat(thermo_data_name), 'rt');
+    % creating directory if not ex
+    if ~exist("thermo/")
+        mkdir("thermo/")
+    end
+    % read first line
+    textLine = fgetl(ReadFileID);
+    % start counters
+    lineCounter = 1;
+    specieCounter = 1;
+    startWriting = 0;
+
+    % looping on lines
+    while ischar(textLine)
+        if textLine == "END"
+            break
+        end
+
+        if textLine == "THERMO"
+            startWriting = 1;
+            textLine = fgetl(ReadFileID);
+            textLine = fgetl(ReadFileID);
+        end
+
+        if length(textLine)>15 && startWriting == 1
+            if textLine(1)~='!'
+                specie_name = split(textLine);
+                dataTh(specieCounter*4-3,1) = specie_name(1);
+                for j = 1:3
+                    textLine = fgetl(ReadFileID);
+                    for i = 1:5
+                        dataTh(j+specieCounter*4-3,i) = cellstr(strtrim(textLine(i*15-14:i*15)));
+                    end
+                end
+                specieCounter = specieCounter + 1;
+            end
+        end
+    
+    
+        % Read the next line.
+        textLine = fgetl(ReadFileID);
+        lineCounter = lineCounter + 1;
+    end
+    fclose(ReadFileID);
+    save("./thermo/conv.mat","dataTh")
+end

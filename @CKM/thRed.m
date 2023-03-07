@@ -10,14 +10,15 @@
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
 
-function chemkin_trans_converter(trans_data_name,species)
+
+function thRed(thermo_data_name,species)
     % preparing cells
-    data_trans = cell(numel(species),7);
+    data = cell(numel(species)*4,5);
     % readmode thermodinamics file
-    ReadFileID = fopen(strcat(trans_data_name), 'rt');
+    ReadFileID = fopen(strcat(thermo_data_name), 'rt');
     % creating directory if not ex
-    if ~exist("transport_models/")
-       mkdir("transport_models/")
+    if ~exist("thermo_models/")
+       mkdir("thermo_models/")
     end
     % read first line
     textLine = fgetl(ReadFileID);
@@ -27,16 +28,24 @@ function chemkin_trans_converter(trans_data_name,species)
 
     % looping on lines
     while ischar(textLine)
-        splitted = split(textLine);
-        if any(strcmp(species,splitted(1)))
-                data_trans(specieCounter,1:7) = splitted(1:7);
+        specie_name = split(textLine);
+        if any(strcmp(species,specie_name(1)))
+            
+            dataTh(specieCounter*4-3,1) = specie_name(1);
+            for j = 1:3
+                textLine = fgetl(ReadFileID);
+                for i = 1:5
+                    dataTh(j+specieCounter*4-3,i) = cellstr(strtrim(textLine(i*15-14:i*15)));
+                end
+            end
             specieCounter = specieCounter + 1;
         end
+
 
         % Read the next line.
         textLine = fgetl(ReadFileID);
         lineCounter = lineCounter + 1;
     end
     fclose(ReadFileID);
-    save(strcat("transport_models/",extractBefore(trans_data_name,'.'),"_reduced.mat"))
+    save("./thermo_models/red.mat","dataTh")
 end

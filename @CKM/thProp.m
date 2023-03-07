@@ -10,7 +10,7 @@
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
 
-function out=all_thermo(specie,prop,T,data)
+function out=thProp(specie,prop,T,data)
 
 R=8.314;
 

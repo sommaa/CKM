@@ -12,15 +12,19 @@
 clc; clear all; close all
 
 %% reducing and parsing thermo model
+% add class
+ckm = CKM;
 species=["CH4" "H2O" "CO" "H2" "CO2" "N2"];
-chemkin_thermo_reducer("thermo .txt path",species)
-chemkin_trans_reducer("trans .txt path",species)
+ckm.thRed("./ARAMCO_MECH/thermo.txt",species)
+ckm.trRed("./ARAMCO_MECH/trans.txt",species)
 
 %% models
-load('saved reduced thermo path');
-load('PM table');
-load('saved reduced thermo path');
+load('./transport_models/red.mat');
+load('./PM/PM_table');
+load('./thermo_models/red.mat');
 
+data = dataTh;
+data_trans = dataTr;
 %% dati reazioni
 EA=[265 88 275]*1e3; %J/mol
 k0=[13.2 136 1.68];
@@ -160,6 +164,7 @@ end
 %% functions
 
 function ode=diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,data_trans)
+ckm = CKM; 
 
 ni=I(1:6);
 T=I(7);
@@ -172,7 +177,7 @@ x=(ni/sum(ni))';
 p=P*x;
 
 % rho
-PM=PM_fun(species,PM_table);
+PM=ckm.PM(species,PM_table);
 PMmix=PM*x';
 rho=P*100000*PMmix/R/T;
 
@@ -182,7 +187,7 @@ v=sum(ni)*PMmix/rho/(pi()*Di^2/4);
 %cp
 cp=zeros(1,length(species));
 for i=1:length(species)
-    cp(i)=all_thermo(species(i),"cp",T,data);
+    cp(i)=ckm.thProp(species(i),"cp",T,data);
 end
 
 cpmix=cp*x';
@@ -190,9 +195,9 @@ cpmix=cp*x';
 %reaction kin
 kj=k0.*exp(-EA./R*(1/T-1/873));
 Kj=K0.*exp(-DH./R/T);
-Keq=[vanthoff_all(T,species,nu(1,:),data)
-    vanthoff_all(T,species,nu(2,:),data)
-    vanthoff_all(T,species,nu(3,:),data)];
+Keq=[ckm.keq(T,species,nu(1,:),data)
+    ckm.keq(T,species,nu(2,:),data)
+    ckm.keq(T,species,nu(3,:),data)];
 
 %r1
 
@@ -210,7 +215,7 @@ r(3)=(kj(3)/p(4)^3.5*(p(1)*p(2)^2-p(4)^4*p(5)/Keq(3))/(1+Kj(3)*p(3)+Kj(4)*p(4)+K
 %DH0R
 DH0R_vect=zeros(1,length(species));
 for i=1:length(species)
-    DH0R_vect(i)=all_thermo(species(i),"H",T,data);
+    DH0R_vect(i)=ckm.thProp(species(i),"H",T,data);
 end
 DH0R=nu*DH0R_vect';
 
@@ -219,7 +224,7 @@ Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
 vi=zeros(1,length(species));
 for i=1:length(species)
-    vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
+    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,PM_table,data);
 end
 
 phi = zeros(length(species),length(species));
@@ -249,6 +254,7 @@ ode=ode';
 end
 
 function Tpe=control_Tpe(L,I,species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,data_trans)
+ckm = CKM;
 
 ni=I(1:6);
 T=I(7);
@@ -258,7 +264,7 @@ P=I(8);
 x=(ni/sum(ni))';
 
 % rho
-PM=PM_fun(species,PM_table);
+PM=ckm.PM(species,PM_table);
 PMmix=PM*x;
 rho=P*101325*PMmix/R/T;
 
@@ -268,7 +274,7 @@ v=sum(ni)*PMmix/rho/(pi()*Di^2/4);
 %cp
 cp=zeros(1,length(species));
 for i=1:length(species)
-    cp(i)=all_thermo(species(i),"cp",T,data);
+    cp(i)=ckm.thProp(species(i),"cp",T,data);
 end
 
 cpmix=cp*x;
@@ -279,7 +285,7 @@ Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
 vi=zeros(1,length(species));
 for i=1:length(species)
-    vi(i)=stat_trans(species(i),T,P,"vi",data_trans,PM_table,data);
+    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,PM_table,data);
 end
 
 
@@ -295,7 +301,7 @@ vi_=sum(x'.*vi./sum(x'.*phi)); %C. R. Wilke, Journal of Chemical Physics 18:517 
 % kt
 kt=zeros(1,length(species));
 for i=1:length(species)
-    kt(i)=stat_trans(species(i),T,P,"kt",data_trans,PM_table,data);
+    kt(i)=ckm.trProp(species(i),T,P,"kt",data_trans,PM_table,data);
 end
 kt_=0.5*(sum(x.*kt')+1/(sum(x'./kt)));  %S. Mathur, P. K. Tondon, and S. C. Saxena, Molecular Physics 12:569 (1967) CHEMKIN MANUAL
 

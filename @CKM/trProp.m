@@ -10,7 +10,7 @@
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
 
-function out = stat_trans(specie,T,P,prop,data_trans,PM_table,data)
+function out = trProp(specie,T,P,prop,data_trans,PM_table,data)
 % collision integrals coefficients fitted for (9,6)potential function from
 % https://nvlpubs.nist.gov/nistpubs/jres/72A/jresv72An4p359_A1b.pdf
 

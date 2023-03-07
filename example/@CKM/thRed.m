@@ -11,7 +11,7 @@
 %                                                                  %
 
 
-function chemkin_thermo_converter(thermo_data_name,species)
+function thRed(thermo_data_name,species)
     % preparing cells
     data = cell(numel(species)*4,5);
     % readmode thermodinamics file
@@ -31,11 +31,11 @@ function chemkin_thermo_converter(thermo_data_name,species)
         specie_name = split(textLine);
         if any(strcmp(species,specie_name(1)))
             
-            data(specieCounter*4-3,1) = specie_name(1);
+            dataTh(specieCounter*4-3,1) = specie_name(1);
             for j = 1:3
                 textLine = fgetl(ReadFileID);
                 for i = 1:5
-                    data(j+specieCounter*4-3,i) = cellstr(strtrim(textLine(i*15-14:i*15)));
+                    dataTh(j+specieCounter*4-3,i) = cellstr(strtrim(textLine(i*15-14:i*15)));
                 end
             end
             specieCounter = specieCounter + 1;
@@ -47,5 +47,5 @@ function chemkin_thermo_converter(thermo_data_name,species)
         lineCounter = lineCounter + 1;
     end
     fclose(ReadFileID);
-    save(strcat("thermo_models/",extractBefore(thermo_data_name,'.'),"_reduced.mat"))
+    save("./thermo_models/red.mat","dataTh")
 end
