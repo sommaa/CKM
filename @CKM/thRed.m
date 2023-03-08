@@ -13,7 +13,7 @@
 
 function thRed(thermo_data_name,species)
     % preparing cells
-    data = cell(numel(species)*4,5);
+    dataTh = cell(numel(species)*4,5);
     % readmode thermodinamics file
     ReadFileID = fopen(strcat(thermo_data_name), 'rt');
     % creating directory if not ex

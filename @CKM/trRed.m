@@ -12,7 +12,7 @@
 
 function trRed(trans_data_name,species)
     % preparing cells
-    data_trans = cell(numel(species),7);
+    dataTr = cell(numel(species),7);
     % readmode thermodinamics file
     ReadFileID = fopen(strcat(trans_data_name), 'rt');
     % creating directory if not ex
