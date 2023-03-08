@@ -7,7 +7,7 @@
 <div align="center">
   <a href="https://github.com/sommaa/Chemkin_on_matlab">
     <img src="https://user-images.githubusercontent.com/120776791/222243117-399a90cb-31e4-45be-afb8-ce26e24b7cd5.png" alt="Logo" width="300" height="75">
-
+    
   </a>
 
   <h3 align="center">Chemkin on matlab</h3>
@@ -20,6 +20,8 @@
     <a href="https://github.com/sommaa/Chemkin_on_matlab/issues">Request Feature</a>
   </p>
 </div>
+
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=sommaa/CKM)
 
 ## Documentation
 
