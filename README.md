@@ -25,7 +25,7 @@
 
 ## Documentation
 
-- [thProp](/@CKM/thProp.m) out = (specie,prop,T,data):
+- [thProp](/@CKM/thProp.m) out = thProp(specie,prop,T,data):
   - specie = name of the specie in chemkin format,
   - out = property to evaluate:
     - H = entalpy;
@@ -34,14 +34,14 @@
     - S = entropy;
   - T = temperature [K]
   - data = chemkin thermo data;
-- [keq](/@CKM/keq.m) Keq = (T,species,coeff,data):
+- [keq](/@CKM/keq.m) out = keq(T,species,coeff,data):
 
   - T = temperature [K];
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - coeff = [A,B,C,D] stechiometric coefficients in a vector;
   - data = chemkin thermo data.
 
-- [trProp](/@CKM/trProp.m) out = stat_trans(specie,T,P,prop,data_trans,PM_table,data):
+- [trProp](/@CKM/trProp.m) out = trProp(specie,T,P,prop,data_trans,PM_table,data):
 
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - T = temperature [K];
