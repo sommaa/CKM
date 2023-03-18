@@ -11,10 +11,11 @@
 %                                                                  %
 
 function Keq=keq(T,species,coeff,data)
+    ckm = CKM;
     G=zeros(1,length(species));
     R=8.314;
     for i=1:length(species)
-        G(i)=all_thermo(species(i),"G",T,data);
+        G(i)=ckm.thProp(species(i),"G",T,data);
     end
     DGR=coeff*G';
     Keq=exp(-DGR/R/T);

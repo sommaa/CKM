@@ -17,6 +17,7 @@ function out = trProp(specie,T,P,prop,data_trans,PM_table,data)
 cc1 = [0.5059 0.5741 2.217 3.153 0.6251 0.9346 0.6495 0.01513];
 cc2 = [1.109 0.3815 0.5508 2.097 1.603 2.097 0.2839 -0.01345];
 
+ckm = CKM;
 PM = zeros(1,length(specie));
 index = zeros(1,length(specie));
 type = zeros(1,length(specie));
@@ -27,7 +28,7 @@ alpha = zeros(1,length(specie));
 Zrot0 = zeros(1,length(specie));
 
 for i =1:length(specie)
-    PM(i) = PM_fun(specie(i),PM_table); %molecular mass Kg/mol
+    PM(i) = ckm.PM(specie(i),PM_table); %molecular mass Kg/mol
     index(i) = find(strcmp(data_trans(:,1),specie(i))==1);
     type(i) = str2double(data_trans(index(i),2));
     epsonk(i) = str2double(data_trans(index(i),3)); %K
@@ -59,7 +60,7 @@ elseif prop == "kt" && length(specie)==1
         error('error in type')
     end
     
-    cv = all_thermo(specie,"cp",T,data)/R-1;
+    cv = ckm.thProp(specie,"cp",T,data)/R-1;
     cvvib = cv-cvtrans-cvrot;
     
     coll1_1 = cc1(1)/(Tred(1))^cc1(2)+cc1(3)/exp(cc1(4)*Tred(1))+cc1(5)/exp(cc1(6)*Tred(1))+cc1(7)/exp(cc1(8)*Tred(1));

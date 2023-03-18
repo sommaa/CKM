@@ -33,6 +33,6 @@ classdef CKM
         trRed(trans_data_name,species)
    end
    methods (Static)
-        PM(species,PM_table)
+        out = PM(species,PM_table)
    end
 end
