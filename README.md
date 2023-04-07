@@ -1,6 +1,12 @@
 <a name="readme-top"></a>
+
+<div align="center">
+
+![MATLAB](https://img.shields.io/badge/MATLAB-e86e05?style=for-the-badge&logo=Octave&logoColor=white)
 ![](https://img.shields.io/github/last-commit/sommaa/Chemkin_on_matlab?&style=for-the-badge&color=CFFC49&logoColor=171718&labelColor=171718)
 [![](https://img.shields.io/github/repo-size/sommaa/Chemkin_on_matlab?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=171718)](https://github.com/sommaa/Chemkin_on_matlab)
+
+</div>
 
 <!-- PROJECT LOGO -->
 <br />
