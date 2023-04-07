@@ -33,8 +33,8 @@ for i =1:length(specie)
     type(i) = str2double(data_trans(index(i),2));
     epsonk(i) = str2double(data_trans(index(i),3)); %K
     lennar(i) = str2double(data_trans(index(i),4))*1e-10; %m
-    mu(i) = str2double(data_trans(index(i),5));
-    alpha(i) = str2double(data_trans(index(i),6));
+    mu(i) = str2double(data_trans(index(i),5))*1e-21/299792458;
+    alpha(i) = str2double(data_trans(index(i),6))*1e-30;
     Zrot0(i) = str2double(data_trans(index(i),7));
 end
 
