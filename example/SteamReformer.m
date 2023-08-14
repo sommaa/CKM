@@ -20,7 +20,6 @@ ckm.trRed("./ARAMCO_MECH/trans.txt",species)
 
 %% models
 load('./transport_models/red.mat');
-load('./PM/PM_table');
 load('./thermo_models/red.mat');
 
 data = dataTh;
@@ -105,14 +104,14 @@ for i=1:length(De_vect)
             Pin = Pin_vect(counter);
             init=[0 0 0 0 0 0 Tin Pin]; init(1:6)=nin.*x;
             opt = odeset('InitialStep',1e-14,'Refine',3,'MaxStep',0.02);
-            [L,sol]=ode15s(@(L,I) diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,data_trans),lunghezza_vect,init,opt);
+            [L,sol]=ode15s(@(L,I) diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,Sv,counter,data_trans),lunghezza_vect,init,opt);
             
             
             %% Tpe control
             
             Tpe=zeros(1,length(L));
             for k = 1:length(L)
-                Tpe(k) = control_Tpe(L(k),sol(k,:),species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,data_trans);
+                Tpe(k) = control_Tpe(L(k),sol(k,:),species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,data_trans);
             end
             
             %% results
@@ -163,7 +162,7 @@ end
 
 %% functions
 
-function ode=diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,PM_table,Sv,counter,data_trans)
+function ode=diff3(L,I,nu,EA,k0,K0,DH,species,deq,eps,rho_bed,effcat,Di,L0,Qtube,R,C,type,data,Sv,counter,data_trans)
 ckm = CKM; 
 
 ni=I(1:6);
@@ -177,7 +176,7 @@ x=(ni/sum(ni))';
 p=P*x;
 
 % rho
-PM=ckm.PM(species,PM_table);
+PM=ckm.PM(species,data);
 PMmix=PM*x';
 rho=P*100000*PMmix/R/T;
 
@@ -224,7 +223,7 @@ Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
 vi=zeros(1,length(species));
 for i=1:length(species)
-    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,PM_table,data);
+    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,data);
 end
 
 phi = zeros(length(species),length(species));
@@ -253,7 +252,7 @@ ode=ode';
 
 end
 
-function Tpe=control_Tpe(L,I,species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,PM_table,data_trans)
+function Tpe=control_Tpe(L,I,species,k_tube,deq,alpha0,Di,De,L0,Qtube,R,C,type,data,data_trans)
 ckm = CKM;
 
 ni=I(1:6);
@@ -264,7 +263,7 @@ P=I(8);
 x=(ni/sum(ni))';
 
 % rho
-PM=ckm.PM(species,PM_table);
+PM=ckm.PM(species,data);
 PMmix=PM*x;
 rho=P*101325*PMmix/R/T;
 
@@ -285,7 +284,7 @@ Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
 vi=zeros(1,length(species));
 for i=1:length(species)
-    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,PM_table,data);
+    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,data);
 end
 
 
@@ -301,7 +300,7 @@ vi_=sum(x'.*vi./sum(x'.*phi)); %C. R. Wilke, Journal of Chemical Physics 18:517 
 % kt
 kt=zeros(1,length(species));
 for i=1:length(species)
-    kt(i)=ckm.trProp(species(i),T,P,"kt",data_trans,PM_table,data);
+    kt(i)=ckm.trProp(species(i),T,P,"kt",data_trans,data);
 end
 kt_=0.5*(sum(x.*kt')+1/(sum(x'./kt)));  %S. Mathur, P. K. Tondon, and S. C. Saxena, Molecular Physics 12:569 (1967) CHEMKIN MANUAL
 

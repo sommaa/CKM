@@ -35,4 +35,7 @@ classdef CKM
    methods (Static)
         out = PM(species,PM_table)
    end
+   methods (Static)
+        out = MM_table
+   end
 end

@@ -10,7 +10,7 @@
 %                     Politecnico of Milan 2021-2022               % 
 %                                                                  %
 
-function out = trProp(specie,T,P,prop,data_trans,PM_table,data)
+function out = trProp(specie,T,P,prop,data_trans,data)
 % collision integrals coefficients fitted for (9,6)potential function from
 % https://nvlpubs.nist.gov/nistpubs/jres/72A/jresv72An4p359_A1b.pdf
 
@@ -28,7 +28,7 @@ alpha = zeros(1,length(specie));
 Zrot0 = zeros(1,length(specie));
 
 for i =1:length(specie)
-    PM(i) = ckm.PM(specie(i),PM_table); %molecular mass Kg/mol
+    PM(i) = ckm.PM(specie(i),data); %molecular mass Kg/mol
     index(i) = find(strcmp(data_trans(:,1),specie(i))==1);
     type(i) = str2double(data_trans(index(i),2));
     epsonk(i) = str2double(data_trans(index(i),3)); %K
