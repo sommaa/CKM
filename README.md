@@ -53,7 +53,7 @@
   - coeff = [A,B,C,D] stechiometric coefficients in a vector;
   - data = chemkin thermo data.
 
-- [trProp](/@CKM/trProp.m) out = trProp(specie,T,P,prop,data_trans,PM_table,data):
+- [trProp](/@CKM/trProp.m) out = trProp(specie,T,P,prop,data_trans,data):
 
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - T = temperature [K];
