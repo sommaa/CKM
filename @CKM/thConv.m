@@ -221,6 +221,7 @@ MM = [2.01410100000000;
                 idx_char = isstrprop(mass_raw,'alpha');
                 start_idx = 1;
                 counter_mm = 1;
+                element = string;
 
                 for i = 2:length(mass_raw)
                     if idx_char(i) ~= idx_char(i-1)
