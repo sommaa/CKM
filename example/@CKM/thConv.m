@@ -203,7 +203,7 @@ MM = [2.01410100000000;
             break
         end
 
-        if textLine == "THERMO"
+        if textLine == "THERMO ALL"
             startWriting = 1;
             textLine = fgetl(ReadFileID);
             textLine = fgetl(ReadFileID);
@@ -221,6 +221,7 @@ MM = [2.01410100000000;
                 idx_char = isstrprop(mass_raw,'alpha');
                 start_idx = 1;
                 counter_mm = 1;
+                element = string;
 
                 for i = 2:length(mass_raw)
                     if idx_char(i) ~= idx_char(i-1)
@@ -241,6 +242,7 @@ MM = [2.01410100000000;
                 dataTh(specieCounter*4-3,1) = specie_name(1);
                 dataTh(specieCounter*4-3,5) = num2cell(PM);
                 dataTh(specieCounter*4-3,2) = join(cellstr(element),',');
+                
                 for j = 1:3
                     textLine = fgetl(ReadFileID);
                     for i = 1:5

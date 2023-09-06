@@ -203,7 +203,7 @@ MM = [2.01410100000000;
             break
         end
 
-        if textLine == "THERMO"
+        if textLine == "THERMO ALL"
             startWriting = 1;
             textLine = fgetl(ReadFileID);
             textLine = fgetl(ReadFileID);

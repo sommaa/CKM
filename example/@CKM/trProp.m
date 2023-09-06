@@ -60,35 +60,37 @@ if prop == "vi" && length(specie)==1
     out = 5/16*sqrt(pi*PM*kb*T/NA)/(pi*lennar^2*coll2_2);
     
 elseif prop == "kt" && length(specie)==1
-    cvtrans = 3/2;
-    
+    cvtrans = 3/2*R;
+    P = 1e5*P; %Pa (input in bar)
+
     if type == 0
         cvrot = 0;
     elseif type == 1
-        cvrot = 1;
+        cvrot = 1*R;
     elseif type == 2
-        cvrot = 3/2;
+        cvrot = 3/2*R;
     else
         error('error in type')
     end
     
-    cv = ckm.thProp(specie,"cp",T,data)/R-1;
+    cv = ckm.thProp(specie,"cp",T,data) - R;
     cvvib = cv-cvtrans-cvrot;
     
     %coll1_1 = cc1(1)/(Tred(1))^cc1(2)+cc1(3)/exp(cc1(4)*Tred(1))+cc1(5)/exp(cc1(6)*Tred(1))+cc1(7)/exp(cc1(8)*Tred(1));
     coll1_1 = cc1A + sum(cc1B./Tred.^exponents + cc1C.*log(Tred).^exponents);
-    pDii = 3/16*sqrt(2*pi*kb^3*T^3/(PM/NA))/(pi*lennar^2*coll1_1);
+    pDii = 3/16*sqrt(2*pi*kb^3*T^3/(PM/NA))/(pi*lennar^2*coll1_1)/P;
     %coll2_2 = cc2(1)/(Tred)^cc2(2)+cc2(3)/exp(cc2(4)*Tred)+cc2(5)/exp(cc2(6)*Tred)+cc2(7)/exp(cc2(8)*Tred);
     coll2_2 = cc2A + sum(cc2B./Tred.^exponents + cc2C.*log(Tred).^exponents);
     vi = 5/16*sqrt(pi*PM*kb*T/NA)/(pi*lennar^2*coll2_2);
-    fvib = PM/R/T*pDii/vi;
-    A = 5/2-fvib;
-    Zrot = Zrot0/(1+pi^(3/2)/2+(pi^2/4+2)*Tred^-1+pi^(3/2)*Tred^(-3/2))*(1+pi^(3/2)/2+(pi^2/4+2)*298^-1+pi^(3/2)*298^(-3/2));
-    B = Zrot+2/pi*(5/3*cvrot/R+fvib);
-    C = 2/pi*A/B;
-    frot = fvib*(1+C);
-    ftrans = 5/2*(1-C*cvrot/cvtrans);
-    out = vi/PM*R*(ftrans*cvtrans+frot*cvrot+fvib*cvvib);
+    fvib = P*PM/R/T*pDii/vi;
+    A = 5/2 - fvib;
+    F = 1 + (pi^1.5)/2*(epsonk/T)^0.5+((pi^2)/4+2)*(epsonk/T)+(pi^1.5)*(epsonk/T)^1.5;
+    F298 = 1 + (pi^1.5)/2*(epsonk/298)^0.5+((pi^2)/4+2)*(epsonk/298)+(pi^1.5)*(epsonk/298)^1.5;
+    Zrot = Zrot0*F298/F;
+    B = Zrot + 2/pi*(5/3*cvrot/R + fvib);
+    frot = fvib*(1 + 2/pi*A/B);
+    ftrans = 5/2*(1 - 2/pi*cvrot/cvtrans*A/B);
+    out = vi/PM*(ftrans*cvtrans + frot*cvrot + fvib*cvvib);
     
 elseif prop == "diff" && length(specie)==2
     if (alpha(1)==0  && alpha(2)~=0) || (alpha(2)==0  && alpha(1)~=0) %non polar + polar
