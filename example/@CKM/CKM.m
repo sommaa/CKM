@@ -12,6 +12,9 @@
 
 classdef CKM
    methods (Static)
+        fitTransportCoefficients(data_trans, data , npoints, boundary)
+   end
+   methods (Static)
         Keq=keq(T,species,coeff,data)
    end
    methods (Static)
@@ -27,7 +30,7 @@ classdef CKM
         trConv(trans_data_name)
    end
    methods (Static)
-        out = trProp(specie,T,P,prop,data_trans,PM_table,data)
+        out = trProp(specie,T,P,prop,data_trans,PM_table,data,fitted)
    end
    methods (Static)
         trRed(trans_data_name,species)

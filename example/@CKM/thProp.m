@@ -29,32 +29,42 @@ for ii = 1:nspecies
     end
 end
 vect= 2:4:nspecies*4;
-index_specie = find(ismember(speciename,specie)==1);
+[~,index_specie] = ismember(specie,speciename);
 
-if T>1000 && T<5000 || T==5000
-    
-    coeff = [data(vect(index_specie),1) data(vect(index_specie),2) data(vect(index_specie),3)...
-        data(vect(index_specie),4) data(vect(index_specie),5) data(vect(index_specie)+1,1) data(vect(index_specie)+1,2)];
-    coeff = str2double(coeff);
-    
-elseif  T<1000 && T>200 || T==1000
-    coeff = [data(vect(index_specie)+1,3) data(vect(index_specie)+1,4) data(vect(index_specie)+1,5) data(vect(index_specie)+2,1)...
-        data(vect(index_specie)+2,2) data(vect(index_specie)+2,3) data(vect(index_specie)+2,4)];
-    coeff = str2double(coeff);
-    
-else
-    disp('temperature range not supported, only 200 to 4000 range accepted')
+% index_specie = find(ismember(speciename,specie)==1);
+
+% T>1000
+coeffH = [data(vect(index_specie),1) data(vect(index_specie),2) data(vect(index_specie),3)...
+    data(vect(index_specie),4) data(vect(index_specie),5) data(vect(index_specie)+1,1) data(vect(index_specie)+1,2)];
+coeffH = str2double(coeffH);
+
+%T<1000 && T>200 || T==1000
+coeffL = [data(vect(index_specie)+1,3) data(vect(index_specie)+1,4) data(vect(index_specie)+1,5) data(vect(index_specie)+2,1)...
+    data(vect(index_specie)+2,2) data(vect(index_specie)+2,3) data(vect(index_specie)+2,4)];
+coeffL = str2double(coeffL);
+
+LOWlogical = T<1000;
+HIGHlogical = ~LOWlogical;
+
+% rotate T if vertical
+if size(T,1)>size(T,2)
+    T = T';
 end
 
 if prop == "cp"
-    out= (coeff(1)+coeff(2)*T+coeff(3)*T^2+coeff(4)*T^3+coeff(5)*T^4)*R;
+    out= (coeffH(:,1)+coeffH(:,2).*T+coeffH(:,3).*T.*T+coeffH(:,4).*T.*T.*T+coeffH(:,5).*T.*T.*T.*T)*R.*HIGHlogical' +...
+        (coeffL(:,1)+coeffL(:,2).*T+coeffL(:,3).*T.*T+coeffL(:,4).*T.*T.*T+coeffL(:,5).*T.*T.*T.*T)*R.*LOWlogical';
 elseif prop == "H"
-    out= (coeff(1)+coeff(2)*T/2+coeff(3)*T^2/3+coeff(4)*T^3/4+coeff(5)*T^4/5+coeff(6)/T)*R*T;
+    out= (coeffH(:,1)+coeffH(:,2).*T/2+coeffH(:,3).*T.*T/3+coeffH(:,4).*T.*T.*T/4+coeffH(:,5).*T.*T.*T.*T/5+coeffH(:,6)/T)*R.*T.*HIGHlogical'+...
+        (coeffL(:,1)+coeffL(:,2).*T/2+coeffL(:,3).*T.*T/3+coeffL(:,4).*T.*T.*T/4+coeffL(:,5).*T.*T.*T.*T/5+coeffL(:,6)/T)*R.*T.*LOWlogical';
 elseif prop == "S"
-    out= (coeff(1)*log(T)+coeff(2)*T+coeff(3)*T^2/2+coeff(4)*T^3/3+coeff(5)*T^4/4+coeff(7))*R;
+    out= (coeffH(:,1)*log(T)+coeffH(:,2).*T+coeffH(:,3).*T/2+coeffH(:,4).*T.*T.*T/3+coeffH(:,5).*T.*T.*T.*T/4+coeffH(:,7))*R.*HIGHlogical'+...
+        (coeffL(:,1)*log(T)+coeffL(:,2).*T+coeffL(:,3).*T/2+coeffL(:,4).*T.*T.*T/3+coeffL(:,5).*T.*T.*T.*T/4+coeffL(:,7))*R.*LOWlogical';
 elseif prop == "G"
-    H= (coeff(1)+coeff(2)*T/2+coeff(3)*T^2/3+coeff(4)*T^3/4+coeff(5)*T^4/5+coeff(6)/T)*R*T;
-    S= (coeff(1)*log(T)+coeff(2)*T+coeff(3)*T^2/2+coeff(4)*T^3/3+coeff(5)*T^4/4+coeff(7))*R;
+    H= (coeffH(:,1)+coeffH(:,2).*T/2+coeffH(:,3).*T.*T/3+coeffH(:,4).*T.*T.*T/4+coeffH(:,5).*T.*T.*T.*T/5+coeffH(:,6)/T)*R.*T.*HIGHlogical'+...
+        (coeffL(:,1)+coeffL(:,2).*T/2+coeffL(:,3).*T.*T/3+coeffL(:,4).*T.*T.*T/4+coeffL(:,5).*T.*T.*T.*T/5+coeffL(:,6)/T)*R.*T.*LOWlogical';
+    S= (coeffH(:,1)*log(T)+coeffH(:,2).*T+coeffH(:,3).*T.*T/2+coeffH(:,4).*T.*T.*T/3+coeffH(:,5).*T.*T.*T.*T/4+coeffH(:,7))*R.*HIGHlogical'+...
+        (coeffL(:,1)*log(T)+coeffL(:,2).*T+coeffL(:,3).*T.*T/2+coeffL(:,4).*T.*T.*T/3+coeffL(:,5).*T.*T.*T.*T/4+coeffL(:,7))*R.*LOWlogical';
     out= H-T*S;
 else
     disp('only cp,G,S,H supported')

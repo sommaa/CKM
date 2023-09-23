@@ -185,8 +185,8 @@ MM = [2.01410100000000;
     % readmode thermodinamics file
     ReadFileID = fopen(strcat(thermo_data_name), 'rt');
     % creating directory if not ex
-    if ~exist("thermo/")
-        mkdir("thermo/")
+    if ~exist("thermo_models/")
+        mkdir("thermo_models/")
     end
     % read first line
     textLine = fgetl(ReadFileID);
@@ -259,5 +259,5 @@ MM = [2.01410100000000;
         lineCounter = lineCounter + 1;
     end
     fclose(ReadFileID);
-    save("./thermo/conv.mat","dataTh")
+    save("./thermo_models/conv.mat","dataTh")
 end

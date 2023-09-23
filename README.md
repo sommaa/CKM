@@ -38,30 +38,41 @@
 ## Documentation
 
 - [thProp](/@CKM/thProp.m) out = thProp(specie,prop,T,data):
-  - specie = name of the specie in chemkin format,
+  - specie = name of the specie in chemkin format (vertical vector),
   - out = property to evaluate:
     - H = entalpy;
     - G = free energy;
     - cp = specific heat at constant pressure;
     - S = entropy;
-  - T = temperature [K]
+  - T = temperature [K] (horizontal vector)
   - data = chemkin thermo data;
-- [keq](/@CKM/keq.m) out = keq(T,species,coeff,data):
 
+- [keq](/@CKM/keq.m) out = keq(T,species,coeff,data):
   - T = temperature [K];
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - coeff = [A,B,C,D] stechiometric coefficients in a vector;
   - data = chemkin thermo data.
 
-- [trProp](/@CKM/trProp.m) out = trProp(specie,T,P,prop,data_trans,data):
-
-  - specie = name of the species in chemkin format in a vector [a,b,c,d];
-  - T = temperature [K];
-  - P = pressure [bar];
+- [trProp](/@CKM/trProp.m) out = trProp(specie,T,P,prop,data_trans,data,fittedOrCalc):
+  - fittedOrCalc == "calc", for calculated properties:
+      - specie = name of the species in chemkin format in vertical vector:          
+      - T = temperature [K] (horizontal vector);
+      - P = pressure [bar] (horizontal vector);
+      - data_trans = transport data;
+      - data = thermodynamic data;
+  - fittedOrCalc == "fit", for fitted properties from [fitTransportCoefficients](/@CKM/fitTransportCoefficients.m):
+      - specie = name of the species in chemkin format in vertical vector;
+      - T = temperature [K] (horizontal vector);
+      - P = pressure [bar] (horizontal vector);
+      - data_trans = fitted coefficients in transport folder:
+          - kt: ckK
+          - vi: ckV
+          - diff: ckD
+      - data = [];
   - prop = property to evaluate, based on collision integral:
-    - vi = viscosity;
-    - kt = thermal conductivity;
-    - diff = diffusion mass coefficient;
+      - vi = viscosity;
+      - kt = thermal conductivity;
+      - diff = diffusion mass coefficient (A in B, binary);
 
 - [thRed](/@CKM/thRed.m) out = thRed(path,species):
   - path = path of the chemkin thermo file;
@@ -69,7 +80,6 @@
   - out = automatically saved .mat file
   
 - [trRed](/@CKM/trRed.m) out = trRed(path,species):
-
   - path = path of the chemkin trans file;
   - specie = name of the species in chemkin format in a vector [a,b,c,d];
   - out = automatically saved .mat file
@@ -81,6 +91,12 @@
 - [trConv](/@CKM/trConv.m) out = trConv(path):
   - path = path of the chemkin trans file;
   - out = automatically saved .mat file
+
+- [fitTransportCoefficients](/@CKM/fitTransportCoefficients.m) out = fitTransportCoefficients(dataTh, dataTr, npoints, boundary):
+  - dataTh = thermodynamic data;
+  - dataTr = transport data;
+  - npoints = number of points on which the fitting is performed (50 is enough);
+  - boundary = temperature range ex: [300 2000];
 
 - [SteamReformer.m](/example/SteamReformer.m): example of usage of functions. Parametric analysis of a steam reforming tube.
 

@@ -184,11 +184,7 @@ rho=P*100000*PMmix/R/T;
 v=sum(ni)*PMmix/rho/(pi()*Di^2/4);
 
 %cp
-cp=zeros(1,length(species));
-for i=1:length(species)
-    cp(i)=ckm.thProp(species(i),"cp",T,data);
-end
-
+cp=ckm.thProp(species,"cp",T,data)';
 cpmix=cp*x';
 
 %reaction kin
@@ -212,19 +208,13 @@ r(3)=(kj(3)/p(4)^3.5*(p(1)*p(2)^2-p(4)^4*p(5)/Keq(3))/(1+Kj(3)*p(3)+Kj(4)*p(4)+K
 
 
 %DH0R
-DH0R_vect=zeros(1,length(species));
-for i=1:length(species)
-    DH0R_vect(i)=ckm.thProp(species(i),"H",T,data);
-end
-DH0R=nu*DH0R_vect';
+DH0R_vect=ckm.thProp(species,"H",T,data);
+DH0R=nu*DH0R_vect;
 
 %Q
 Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 % visc
-vi=zeros(1,length(species));
-for i=1:length(species)
-    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,data);
-end
+vi=ckm.trProp(species,T,P,"vi",data_trans,data,"calc")';
 
 phi = zeros(length(species),length(species));
 for j=1:length(species)
@@ -271,10 +261,7 @@ rho=P*101325*PMmix/R/T;
 v=sum(ni)*PMmix/rho/(pi()*Di^2/4);
 
 %cp
-cp=zeros(1,length(species));
-for i=1:length(species)
-    cp(i)=ckm.thProp(species(i),"cp",T,data);
-end
+cp=ckm.thProp(species,"cp",T,data)';
 
 cpmix=cp*x;
 
@@ -282,10 +269,7 @@ cpmix=cp*x;
 Q=Qtube*(C(1)*(L/L0+C(2))*exp(-C(3)*(L/L0)^C(4)));
 
 % visc
-vi=zeros(1,length(species));
-for i=1:length(species)
-    vi(i)=ckm.trProp(species(i),T,P,"vi",data_trans,data);
-end
+vi=ckm.trProp(species,T,P,"vi",data_trans,data,"calc")';
 
 
 phi = zeros(length(species),length(species));
@@ -298,10 +282,7 @@ end
 vi_=sum(x'.*vi./sum(x'.*phi)); %C. R. Wilke, Journal of Chemical Physics 18:517 (1950) CHEMKIN MANUAL
 
 % kt
-kt=zeros(1,length(species));
-for i=1:length(species)
-    kt(i)=ckm.trProp(species(i),T,P,"kt",data_trans,data);
-end
+kt=ckm.trProp(species,T,P,"kt",data_trans,data,"calc")';
 kt_=0.5*(sum(x.*kt')+1/(sum(x'./kt)));  %S. Mathur, P. K. Tondon, and S. C. Saxena, Molecular Physics 12:569 (1967) CHEMKIN MANUAL
 
 % Re Pr

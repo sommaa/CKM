@@ -14,8 +14,8 @@ function trConv(trans_data_name)
     % readmode thermodinamics file
     ReadFileID = fopen(strcat(trans_data_name), 'rt');
     % creating directory if not ex
-    if ~exist("trans/")
-       mkdir("trans/")
+    if ~exist("transport_models/")
+       mkdir("transport_models/")
     end
     % read first line
     textLine = fgetl(ReadFileID);
@@ -27,10 +27,10 @@ function trConv(trans_data_name)
     while ischar(textLine)
         splitted = split(textLine);
         if length(textLine) >15
-        if textLine(1) ~= "!" 
+            if textLine(1) ~= "!" 
                 dataTr(specieCounter,1:7) = splitted(1:7);
-            specieCounter = specieCounter + 1;
-        end
+                specieCounter = specieCounter + 1;
+            end
         end
 
         % Read the next line.
@@ -38,5 +38,5 @@ function trConv(trans_data_name)
         lineCounter = lineCounter + 1;
     end
     fclose(ReadFileID);
-    save("./trans/conv.mat","dataTr")
+    save("./transport_models/conv.mat","dataTr")
 end
