@@ -1,14 +1,18 @@
-%            ________  ___  __        _____ ______                 %
-%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
-%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
-%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
-%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
-%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
-%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
-%                                                                  %
-%                     Author: Andrea Somma;                        % 
-%                     Politecnico of Milan 2021-2022               % 
-%                                                                  %
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan                                 
+%                                                                         
+% trConv converts a Chemkin transport sheet into a matlab matrix
+% 
+% - trConv(filePath): where "filePath" is the path to the chemkin
+%       transport sheet.
 
 function trConv(trans_data_name)
     % readmode thermodinamics file

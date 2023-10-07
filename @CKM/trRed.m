@@ -1,17 +1,24 @@
-%            ________  ___  __        _____ ______                 %
-%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
-%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
-%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
-%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
-%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
-%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
-%                                                                  %
-%                     Author: Andrea Somma;                        % 
-%                     Politecnico of Milan 2021-2022               % 
-%                                                                  %
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan                                 
+%                                                                         
+% trRed reduces a Chemkin transport sheet into a shorter version containing
+% only the requested ones and converts the file into a matlab matrix
+% 
+% - trRed(filePath, species): where "filePath" is the path to the chemkin
+%       transport sheet and "specie" is a string vector of the wanted
+%       species.
+    
 
 function trRed(trans_data_name,species)
-    % preparing cells
+
     dataTr = cell(numel(species),7);
     % readmode thermodinamics file
     ReadFileID = fopen(strcat(trans_data_name), 'rt');

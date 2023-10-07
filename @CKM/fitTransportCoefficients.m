@@ -1,3 +1,30 @@
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan   
+%
+% fitTransportCoefficients fits transport coefficients in the form:
+% exp( ck(1) + ck(2)*log(T) + ck(3)*(log(T)).^2 + ck(4)*(log(T)).^3 ),
+% where T is the temperature [K] and ck is the transport coefficient
+% vector. The function writes out coefficients in transport folder as:
+%   - ckK (thermal conductivity);
+%   - ckD (binary diffusivity);
+%   - ckV (viscosity);
+%   - HumanReadable/TransportFitTable.dat (Human readable coefficients);
+%
+% - out = fitTransportCoefficients(dataTh, dataTr, npoints, boundary):
+%   - dataTh = thermodynamic data matrix (see thConv or thRed);
+%   - dataTr = transport data matrix (see trConv or trRed);
+%   - npoints = number of points on which the fitting is performed 
+%       (50 is enough);
+%   - boundary = temperature range ex: [300 2000];
+
 function fitTransportCoefficients(dataTh, dataTr, npoints, boundary)
     % create the Temperature points to fit
     Tpoints = linspace(boundary(1), boundary(2), npoints);

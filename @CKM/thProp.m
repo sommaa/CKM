@@ -1,14 +1,29 @@
-%            ________  ___  __        _____ ______                 %
-%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
-%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
-%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
-%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
-%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
-%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
-%                                                                  %
-%                     Author: Andrea Somma;                        % 
-%                     Politecnico of Milan 2021-2022               % 
-%                                                                  %
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan                                 
+%                                                                        
+% thProp calculates thermodynamic properties from converted CHEMKIN format
+% matrix sheets (see thRed or thConv)
+%
+% - out = thProp(specie,prop,T,data): where specie is the vector of
+% species, prop is the property, T is the temperature [K], data is the
+% converted thermo matrix.
+%
+%   - specie = name of the specie in chemkin format (vertical vector),
+%   - out = property to evaluate (SI units):
+%       - H = entalpy;
+%       - G = free energy;
+%       - cp = specific heat at constant pressure;
+%       - S = entropy;
+%   - T = temperature [K] (horizontal vector)
+%   - data = chemkin thermo data;
 
 function out=thProp(specie,prop,T,data)
 

@@ -1,14 +1,18 @@
-%            ________  ___  __        _____ ______                 %
-%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
-%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
-%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
-%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
-%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
-%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
-%                                                                  %
-%                     Author: Andrea Somma;                        %
-%                     Politecnico of Milan 2021-2022               %
-%                                                                  %
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan                                 
+%                                                                         
+% thConv converts a Chemkin transport sheet into a matlab matrix
+% 
+% - thConv(filePath): where "filePath" is the path to the chemkin
+%       thermo sheet.
 
 
 function thConv(thermo_data_name)

@@ -1,14 +1,44 @@
-%            ________  ___  __        _____ ______                 %
-%           |\   ____\|\  \|\  \     |\   _ \  _   \               %
-%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \              %
-%            \ \  \    \ \   ___  \   \ \  \\|__| \  \             %
-%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \            %
-%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\           %
-%               \|_______|\|__| \|__\|__|\|__|     \|__|           %
-%                                                                  %
-%                     Author: Andrea Somma;                        %
-%                     Politecnico of Milan 2021-2022               %
-%                                                                  %
+%            ________  ___  __        _____ ______                 
+%           |\   ____\|\  \|\  \     |\   _ \  _   \                        
+%           \ \  \___|\ \  \/  /|_   \ \  \\\__\ \  \                     
+%            \ \  \    \ \   ___  \   \ \  \\|__| \  \                    
+%             \ \  \____\ \  \\ \  \ __\ \  \    \ \  \                   
+%              \ \_______\ \__\\ \__\\__\ \__\    \ \__\                  
+%               \|_______|\|__| \|__\|__|\|__|     \|__|                  
+%                                                                         
+%                     Author: Andrea Somma;                                
+%                     Politecnico of Milan                                 
+%                                                                         
+% trProp calculates transport properties as: viscosity (vi), binary
+% diffusivity (diff), thermal conductivity (kt) of requested species, both
+% from transport matrix (see trRed or trConv) and from fitted coefficients
+% (see fitTransportCoefficients) in SI units.
+% 
+% - out = trProp(specie,T,P,prop,data_trans,data,fittedOrCalc): where
+% specie is the vector of the species, T the temperature [K], P the
+% pressure [bar], see below for further informations.
+%
+%   - fittedOrCalc == "calc", for calculated properties:
+%       - specie = name of the species in chemkin format in vertical vector;          
+%       - T = temperature [K] (horizontal vector);
+%       - P = pressure [bar] (horizontal vector);
+%       - data_trans = transport data matrix from trRed or trConv;
+%       - data = thermodynamic data matrix from thRed or thConv;
+%
+%  - fittedOrCalc == "fit", for fitted properties from fitTransportCoefficients:
+%       - specie = name of the species in chemkin format in vertical vector;
+%       - T = temperature [K] (horizontal vector);
+%       - P = pressure [bar] (horizontal vector);
+%       - data_trans = fitted coefficients in transport folder:
+%           - kt: ckK;
+%           - vi: ckV;
+%           - diff: ckD;
+%       - data = [];
+%
+%  - prop = property to evaluate, based on collision integral:
+%       - vi = viscosity;
+%       - kt = thermal conductivity;
+%       - diff = diffusion mass coefficient (A in B, binary);
 
 function out = trProp(specie,T,P,prop,data_trans,data,fitted)
 ckm = CKM;
